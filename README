@@ -1,2 +1,11 @@
-
 This is a SOAP client which interacts with the dotmailer.co.uk API system.
+
+To use this system to interact with your dotmailer account, first ensure that you have created an API user and have a note of the new username and password.
+
+Then set your username and password in the sample file dotmailersupport.sample.py and save that file as dotmailersupport.py so that the SOAP client can use it.
+
+You can then run the script and (currently) use it to query a particular user, to list the campaigns in your account, or to retrieve lists of email addresses which have bounced after attempting to send a message.
+
+Full implementation of all methods is not (yet) available through this package.
+
+For additional information see http://www.dotmailer.co.uk
