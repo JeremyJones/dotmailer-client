@@ -19,7 +19,7 @@ from suds.client  import Client     as SOAPClient
 from django.utils import simplejson as json
 from types        import *
 
-from dotmailersupport import api_username, api_password
+from dotmailerauth import api_username, api_password
 
 url              = r'http://apiconnector.com/api.asmx?WSDL'
 api_username     = api_username()

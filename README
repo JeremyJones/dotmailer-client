@@ -1,11 +1,45 @@
-This is a SOAP client which interacts with the dotmailer.co.uk API system.
+This is a SOAP client which interacts with the dotmailer.co.uk API
+system.
 
-To use this system to interact with your dotmailer account, first ensure that you have created an API user and have a note of the new username and password.
+-----------------
+Prerequisites
+-----------------
 
-Then set your username and password in the sample file dotmailersupport.sample.py and save that file as dotmailersupport.py so that the SOAP client can use it.
+  - Python (tested version is 2.6.5, other versions may work)
 
-You can then run the script and (currently) use it to query a particular user, to list the campaigns in your account, or to retrieve lists of email addresses which have bounced after attempting to send a message.
+  - Django (1.2) is required for the simplejson package, which is used
+    to translate the SOAP responses into JSON format for output. 
+    Django is available at www.djangoproject.com
 
-Full implementation of all methods is not (yet) available through this package.
+  - Suds (0.3.9) provides the SOAP client. Suds is available for
+    download at https://fedorahosted.org/suds/
+
+-----------------
+Installation
+-----------------
+
+To use this system to interact with your dotmailer account, first
+ensure that you have created an API user and have a note of the new
+username and password.
+
+Then set your username and password in the sample file
+dotmailerauth.sample.py and save that file as dotmailerauth.py so that
+the client can use it.
+
+You can then run the script and (currently) use it to query a
+particular user, to list the campaigns in your account, or to retrieve
+lists of email addresses which have bounced after attempting to send a
+message.
+
+-----------------
+Notes
+-----------------
+
+Full implementation of all methods is not (yet) available through this
+package.
+
+-----------------
+Resources
+-----------------
 
 For additional information see http://www.dotmailer.co.uk

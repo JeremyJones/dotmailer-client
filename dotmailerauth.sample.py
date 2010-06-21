@@ -1,7 +1,7 @@
 
 """
 
-Sample support file for dotmailer command-line utility.
+Sample authorisation file for the dotmailer command-line utility.
 
 """
 
