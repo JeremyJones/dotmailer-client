@@ -7,13 +7,19 @@ from campaign sends (e.g. hard bounces etc) in JSON format.
 
 Usage: dotmailer.py <action> [<data>]
 
-Where action is one of 'query' 'hardbounces' or 'listcampaigns' and
-data is appropriate to the action (e.g. for 'query' you provide an
+Where action is one of
+
+     hardbounces
+     listcampaigns
+     query
+     unsubscribers
+
+and data is appropriate to the action (e.g. for 'query' you provide an
 email address etc).
 
 """
 
-import sys
+import sys, datetime
 
 from suds.client  import Client     as SOAPClient
 from django.utils import simplejson as json
@@ -117,6 +123,32 @@ elif action == 'listcampaigns':
 
     s = json.dumps(myCampaigns, sort_keys=True, indent=4)
     print '\n'.join([l.rstrip() for l in  s.splitlines()])
+
+elif action == 'unsubscribers':
+
+    client      = SOAPClient(url)
+    myUsers     = []
+
+    try:
+        daysdiff = int(sys.argv[2])
+    except IndexError:
+        daysdiff = 90 # default is all those who unsubscribed in the past 3 months
+
+    td = datetime.timedelta(days = daysdiff)
+    d1 = datetime.datetime.now() - td
+
+    try:
+        result = client.service.ListUnsubscribers(api_username, api_password, d1)
+    except:
+        print "Failure retrieving unsubscribed users"
+        sys.exit(1)
+    else:
+        for bouncedContact in result[0]:
+            userEmailAddress = bouncedContact[1]
+            myUsers.append(userEmailAddress)
+            
+        s = json.dumps(myUsers, sort_keys=True, indent=4)
+        print '\n'.join([l.rstrip() for l in  s.splitlines()])
 
 else:
 
