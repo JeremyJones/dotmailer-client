@@ -110,9 +110,10 @@ elif action == 'hardbounces':
         except:
             print "Campaign " + campaign_id + " not found"
         else:
-            for bouncedContact in result[0]:
-                userEmailAddress = bouncedContact[1]
-                myUsers.append(userEmailAddress)
+            if len(result):
+                for bouncedContact in result[0]:
+                    userEmailAddress = bouncedContact[1]
+                    myUsers.append(userEmailAddress)
             
     s = json.dumps(myUsers, sort_keys=True, indent=4)
     print '\n'.join([l.rstrip() for l in  s.splitlines()])
@@ -143,12 +144,13 @@ elif action == 'unsubscribers':
         print "Failure retrieving unsubscribed users"
         sys.exit(1)
     else:
-        for bouncedContact in result[0]:
-            userEmailAddress = bouncedContact[1]
-            myUsers.append(userEmailAddress)
-            
-        s = json.dumps(myUsers, sort_keys=True, indent=4)
-        print '\n'.join([l.rstrip() for l in  s.splitlines()])
+        if len(result):
+            for bouncedContact in result[0]:
+                userEmailAddress = bouncedContact[1]
+                myUsers.append(userEmailAddress)
+                
+            s = json.dumps(myUsers, sort_keys=True, indent=4)
+            print '\n'.join([l.rstrip() for l in  s.splitlines()])
 
 else:
 
