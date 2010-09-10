@@ -14,6 +14,7 @@ Where action is one of
      query
      unsubscribers
      listaddressbooks
+     getaddressbookcontactcount
 
 and data is appropriate to the action (e.g. for 'query' you provide an
 email address etc).
@@ -93,6 +94,17 @@ def getMyAddressBooks ():
 
         return myBooks
 
+def getAddressBookContactCount (id):
+    
+    client      = SOAPClient(url)
+
+    try:
+        result = client.service.GetAddressBookContactCount(api_username, api_password, id)
+    except:
+        print "Address book contact count fail"
+    else:
+        return result
+
 #---
 
 if action == 'query':
@@ -154,6 +166,18 @@ elif action == 'listaddressbooks':
     s = json.dumps(myBooks, sort_keys=True, indent=4)
     print '\n'.join([l.rstrip() for l in  s.splitlines()])
 
+elif action == 'getaddressbookcontactcount':
+    
+    try:
+        abid = int(sys.argv[2]) # address book id
+    except:
+        print "Usage: dotmailer getaddressbookcontactcount <address book id>"
+        sys.exit(1)
+        
+    myCount = getAddressBookContactCount(abid)
+
+    print myCount
+    
 elif action == 'unsubscribers':
 
     client      = SOAPClient(url)
