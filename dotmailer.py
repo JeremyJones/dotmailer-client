@@ -13,6 +13,7 @@ Where action is one of
      listcampaigns
      query
      unsubscribers
+     listaddressbooks
 
 and data is appropriate to the action (e.g. for 'query' you provide an
 email address etc).
@@ -71,6 +72,27 @@ def getMyCampaigns ():
 
         return myCampaigns
 
+def getMyAddressBooks ():
+    
+    client      = SOAPClient(url)
+
+    try:
+        result = client.service.ListAddressBooks(api_username, api_password)
+    except:
+        print "Address books list fail"
+    else:
+
+        myBooks = []
+
+        for book in result[0]:
+            myCamp = {}
+            for r in book:
+                myCamp[r[0]] = r[1]
+
+            myBooks.append(myCamp)
+
+        return myBooks
+
 #---
 
 if action == 'query':
@@ -123,6 +145,13 @@ elif action == 'listcampaigns':
     myCampaigns = getMyCampaigns()
 
     s = json.dumps(myCampaigns, sort_keys=True, indent=4)
+    print '\n'.join([l.rstrip() for l in  s.splitlines()])
+
+elif action == 'listaddressbooks':
+    
+    myBooks = getMyAddressBooks()
+
+    s = json.dumps(myBooks, sort_keys=True, indent=4)
     print '\n'.join([l.rstrip() for l in  s.splitlines()])
 
 elif action == 'unsubscribers':
