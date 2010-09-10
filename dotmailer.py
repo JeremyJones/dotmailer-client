@@ -15,6 +15,7 @@ Where action is one of
      unsubscribers
      listaddressbooks
      getaddressbookcontactcount
+     createaddressbook
 
 and data is appropriate to the action (e.g. for 'query' you provide an
 email address etc).
@@ -105,9 +106,24 @@ def getAddressBookContactCount (id):
     else:
         return result
 
+def createAddressBook (name):
+    
+    client      = SOAPClient(url)
+
+    try:
+        result = client.service.CreateAddressBook(api_username, api_password, { 'Name': name } )
+    except:
+        print "Address book create fail"
+    else:
+        return result
+
 #---
 
-if action == 'query':
+if action == 'desc':
+    client        = SOAPClient(url)
+    print client
+
+elif action == 'query':
 
     client        = SOAPClient(url)
     try:
@@ -178,6 +194,16 @@ elif action == 'getaddressbookcontactcount':
 
     print myCount
     
+elif action == 'createaddressbook':
+    
+    try:
+        aname = sys.argv[2] # address book name
+    except:
+        print "Usage: dotmailer createaddressbook <address book name>"
+        sys.exit(1)
+        
+    print createAddressBook(aname)
+        
 elif action == 'unsubscribers':
 
     client      = SOAPClient(url)
