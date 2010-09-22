@@ -22,7 +22,7 @@ email address etc).
 
 """
 
-import sys, datetime
+import sys, datetime, base64
 
 from suds.client  import Client     as SOAPClient
 from django.utils import simplejson as json
@@ -230,6 +230,19 @@ elif action == 'unsubscribers':
                 
             s = json.dumps(myUsers, sort_keys=True, indent=4)
             print '\n'.join([l.rstrip() for l in  s.splitlines()])
+
+elif action == 'addcontactstoaddressbook':
+    try:
+        addressbookid    = sys.argv[2]
+        contactsfilename = sys.argv[3]
+    except IndexError:
+        print "Usage: dotmailer addcontactstoaddressbook addressbookid contactsfilename\n"
+        sys.exit(1)
+
+    initial_data = open(__file__, contactsfilename)
+    base64_data  = base64.b64encode(initial_data)
+
+    client = SOAPClient(url)
 
 else:
 
