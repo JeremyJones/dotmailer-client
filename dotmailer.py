@@ -204,6 +204,42 @@ elif action == 'createaddressbook':
         
     print createAddressBook(aname)
         
+elif action == 'createcontact':
+    
+    fieldList = ['bounce_count', 'creation_date', 'deletion_date',
+                 'email', 'email_format',
+                 'joined_via', 'last_logged_in', 'member_id', 'mobile_number',
+                 'mobile_number_confirmed', 'name', 'network', 'opt_in',
+                 'opt_in_newsquest', 'postcode', 'total_bounce_count',
+                 'validated_date']
+
+    contactDataFields = {}
+    email     = ""
+    emailType = ""
+
+    for r in range(len(fieldList)):
+        if fieldList[r] == 'email':
+            email = sys.argv[r + 2]
+        elif fieldList[r] == 'email_format':
+            emailType = sys.argv[r + 2]
+        else:
+            contactDataFields[fieldList[r]] = sys.argv[r + 2]
+
+    client = SOAPClient(url)
+
+    df        = client.factory.create('ContactDataFields')
+    df.Keys   = [contactDataFields.keys()]
+    df.Values = [contactDataFields.values()]
+
+    c              = client.factory.create('APIContact')
+    c.Email        = email
+    c.EmailType    = emailType
+    c.OptInType    = 'Unknown'
+    c.AudienceType = 'Unknown'
+    c.DataFields   = df
+
+    print client.service.CreateContact(api_username, api_password, c)
+        
 elif action == 'unsubscribers':
 
     client      = SOAPClient(url)
