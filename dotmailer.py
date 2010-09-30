@@ -16,6 +16,7 @@ Where action is one of
      listaddressbooks
      getaddressbookcontactcount
      createaddressbook
+     addcontactstoaddressbook
 
 and data is appropriate to the action (e.g. for 'query' you provide an
 email address etc).
@@ -239,10 +240,14 @@ elif action == 'addcontactstoaddressbook':
         print "Usage: dotmailer addcontactstoaddressbook addressbookid contactsfilename\n"
         sys.exit(1)
 
-    initial_data = open(__file__, contactsfilename)
+    initial_data = open(contactsfilename, 'r').read()
     base64_data  = base64.b64encode(initial_data)
 
     client = SOAPClient(url)
+    reply  = client.service.AddContactsToAddressBook(username=api_username, password=api_password, addressbookID=addressbookid, data=base64_data, dataType='CSV')
+
+    if reply:
+        print reply
 
 else:
 
