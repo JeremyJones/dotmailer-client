@@ -17,13 +17,14 @@ Where action is one of
      getaddressbookcontactcount
      createaddressbook
      addcontactstoaddressbook
+     createcampaign
 
 and data is appropriate to the action (e.g. for 'query' you provide an
 email address etc).
 
 """
 
-import sys, datetime, base64
+import sys, datetime, base64, time
 
 from suds.client  import Client     as SOAPClient
 from django.utils import simplejson as json
@@ -246,8 +247,29 @@ elif action == 'addcontactstoaddressbook':
     client = SOAPClient(url)
     reply  = client.service.AddContactsToAddressBook(username=api_username, password=api_password, addressbookID=addressbookid, data=base64_data, dataType='CSV')
 
+    mycount = 0
+    for i in range(10):
+        mycount = getAddressBookContactCount(addressbookid)
+        if mycount > 0:
+            break 
+        time.sleep(1)
+
     if reply:
         print reply
+
+elif action == 'createcampaign':
+    try:
+        fromname           = sys.argv[2]
+        htmlfile           = sys.argv[3]
+        campaignname       = sys.argv[4]
+        textfile           = sys.argv[5]
+        replyaction        = sys.argv[6]
+        subject            = sys.argv[7]
+    except IndexError:
+        print "Usage: dotmailer createcampaign fromname htmlfile campaigname textfile replyaction subject\n"
+        sys.exit(1)
+
+    print "Create campaign unimplemented\n"
 
 else:
 
