@@ -24,7 +24,7 @@ email address etc).
 
 """
 
-import sys, datetime, base64
+import sys, datetime, base64, time
 
 from suds.client  import Client     as SOAPClient
 from django.utils import simplejson as json
@@ -246,6 +246,13 @@ elif action == 'addcontactstoaddressbook':
 
     client = SOAPClient(url)
     reply  = client.service.AddContactsToAddressBook(username=api_username, password=api_password, addressbookID=addressbookid, data=base64_data, dataType='CSV')
+
+    mycount = 0
+    for i in range(10):
+        mycount = getAddressBookContactCount(addressbookid)
+        if mycount > 0:
+            break 
+        time.sleep(1)
 
     if reply:
         print reply
