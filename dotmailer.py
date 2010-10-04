@@ -17,6 +17,7 @@ Where action is one of
      getaddressbookcontactcount
      createaddressbook
      addcontactstoaddressbook
+     createcampaign
 
 and data is appropriate to the action (e.g. for 'query' you provide an
 email address etc).
@@ -248,6 +249,20 @@ elif action == 'addcontactstoaddressbook':
 
     if reply:
         print reply
+
+elif action == 'createcampaign':
+    try:
+        fromname           = sys.argv[2]
+        htmlfile           = sys.argv[3]
+        campaignname       = sys.argv[4]
+        textfile           = sys.argv[5]
+        replyaction        = sys.argv[6]
+        subject            = sys.argv[7]
+    except IndexError:
+        print "Usage: dotmailer createcampaign fromname htmlfile campaigname textfile replyaction subject\n"
+        sys.exit(1)
+
+    print "Create campaign unimplemented\n"
 
 else:
 
